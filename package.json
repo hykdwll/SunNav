@@ -6,25 +6,26 @@
   "scripts": {
     "dev": "node server.js",
     "start": "node server.js",
-    "build": "npm run build:client",
+    "build": "cd client && npm install && npm run build",
     "build:client": "cd client && npm install && npm run build",  
     "vercel-build": "npm run build"
   },
   "dependencies": {
+  "eslint": "^8.57.0",
     "axios": "^1.11.0",
     "bcrypt": "^6.0.0",
-    "bcryptjs": "^2.4.3",
-    "cheerio": "^1.1.2",
-    "compression": "^1.7.4",
+    "bcryptjs": "^3.0.2",
+    "cheerio": "^1.0.0",
+    "compression": "^1.8.1",
     "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
-    "express": "^4.18.2",
-    "helmet": "^7.1.0",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.14.3"
   },
   "devDependencies": {
-    "nodemon": "^3.0.2"
+    "nodemon": "^3.1.10"
   },
   "keywords": [
     "bookmark",
@@ -36,6 +37,6 @@
   "author": "SunNav Team",
   "license": "MIT",
   "engines": {
-    "node": "18.x"
+    "node": "22.x"
   }
 }
