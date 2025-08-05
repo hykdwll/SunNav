@@ -4,29 +4,30 @@
   "description": "A modern bookmark navigation system built with Node.js and React",
   "main": "server.js",
   "scripts": {
-    "check-versions": "node -v | findstr 20 && npm -v | findstr 10",
-    "dev": "node server.js",
+    "check-versions": "node -e \"if (parseInt(process.versions.node.split('.')[0]) < 20) { console.error('Node.js version 20+ required'); process.exit(1); }\"",
+    "dev": "nodemon server.js",
     "start": "node server.js",
     "build": "npm run check-versions && cd client && npm install --legacy-peer-deps && npm run build",
-    "build:client": "cd client && npm install && npm run build",  
-    "vercel-build": "npm run build"
+    "build:client": "cd client && npm install && npm run build",
+    "vercel-build": "npm run build",
+    "prebuild": "npm install",
+    "prepare": "npm run build"
   },
   "dependencies": {
-  "eslint": "^8.57.1",
-    "axios": "^1.11.0",
-    "bcrypt": "^6.0.0",
-    "bcryptjs": "^3.0.2",
-    "cheerio": "^1.1.2",
-    "compression": "^1.8.1",
+    "eslint": "^9.0.0",
+    "axios": "^1.6.0",
+    "bcryptjs": "^2.4.3",
+    "cheerio": "^1.0.0",
+    "compression": "^1.7.4",
     "cors": "^2.8.5",
-    "dotenv": "^17.2.1",
-    "express": "^5.1.0",
-    "helmet": "^8.1.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
-    "mysql2": "^3.14.3"
+    "mysql2": "^3.9.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.0"
   },
   "keywords": [
     "bookmark",
@@ -38,7 +39,8 @@
   "author": "SunNav Team",
   "license": "MIT",
   "engines": {
-  "node": "22.x",
-  "npm": "10.x"
-}
+    "node": ">=22.x",
+    "npm": ">=10.x"
+  },
+  "cacheDirectories": ["node_modules", "client/node_modules"]
 }
