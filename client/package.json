@@ -22,7 +22,8 @@
     "test": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
-    "prebuild": "rimraf build",
+    "prepare": "npm run build",
+    "prebuild": "npm install",
     "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "eslintConfig": {
@@ -45,7 +46,7 @@
     ]
   },
   "engines": {
-    "node": "22.x"
+    "node": "18.x"
   },
   "devDependencies": {
     "@eslint/config-array": "^0.21.0",
