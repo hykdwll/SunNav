@@ -4,14 +4,15 @@
   "description": "A modern bookmark navigation system built with Node.js and React",
   "main": "server.js",
   "scripts": {
+    "check-versions": "node -v | findstr 20 && npm -v | findstr 10",
     "dev": "node server.js",
     "start": "node server.js",
-    "build": "cd client && npm install && npm run build",
+    "build": "npm run check-versions && cd client && npm install --legacy-peer-deps && npm run build",
     "build:client": "cd client && npm install && npm run build",  
     "vercel-build": "npm run build"
   },
   "dependencies": {
-  "eslint": "^8.57.0",
+  "eslint": "^8.57.1",
     "axios": "^1.11.0",
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.2",
