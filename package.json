@@ -4,7 +4,7 @@
   "description": "A modern bookmark navigation system built with Node.js and React",
   "main": "server.js",
   "scripts": {
-    "check-versions": "node -e \"if (parseInt(process.versions.node.split('.')[0]) < 20) { console.error('Node.js version 20+ required'); process.exit(1); }\"",
+    "check-versions": "node -v | grep 20 && npm -v | grep 10",
     "dev": "nodemon server.js",
     "start": "node server.js",
     "build": "npm run check-versions && cd client && npm install --legacy-peer-deps && npm run build",
