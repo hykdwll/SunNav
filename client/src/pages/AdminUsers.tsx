@@ -15,7 +15,7 @@ const AdminUsers: React.FC = () => {
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>('');
-  const { user } = useAuth();
+  useAuth();
 
   useEffect(() => {
     fetchUsers();

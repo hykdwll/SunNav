@@ -7,10 +7,7 @@ import {
   TrashIcon,
   StarIcon,
   MagnifyingGlassIcon,
-  TagIcon,
-  FolderIcon,
   XMarkIcon,
-  HomeIcon,
 } from '@heroicons/react/24/outline';
 import { StarIcon as SolidStarIcon } from '@heroicons/react/24/solid';
 import BookmarkIcon from '../components/BookmarkIcon';
@@ -183,74 +180,51 @@ const Bookmarks: React.FC = () => {
 
   const BookmarkCard: React.FC<{ bookmark: Bookmark }> = ({ bookmark }) => (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 hover:shadow-md transition-shadow">
-      <div className="flex items-start justify-between">
-        <div className="flex items-start space-x-3">
+      <div className="flex items-start space-x-3">
+        <div className="flex-shrink-0">
           <BookmarkIcon iconUrl={bookmark.icon_url} title={bookmark.title} />
-          <div>
-            <a
-              href={bookmark.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-lg font-medium text-primary-600 hover:text-primary-500 truncate block"
-              onClick={() => bookmarkAPI.incrementClick(bookmark.id.toString())}
-            >
-              {bookmark.title}
-            </a>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 truncate">
-              {bookmark.url}
-            </p>
-            {bookmark.description && (
-              <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
-                {bookmark.description}
-              </p>
-            )}
-            <div className="flex items-center gap-2 mt-3">
-              {bookmark.category_name && (
-                <span
-                  className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium"
-                  style={{ 
-                    backgroundColor: bookmark.category_color + '20', 
-                    color: bookmark.category_color 
-                  }}
-                >
-                  <FolderIcon className="h-3 w-3 mr-1" />
-                  {bookmark.category_name}
-                </span>
-              )}
-              {Array.isArray(bookmark.tags) && bookmark.tags.map((tag, index) => (
-                <span
-                  key={index}
-                  className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
-                >
-                  <TagIcon className="h-3 w-3 mr-1" />
-                  {typeof tag === 'string' ? tag : tag.name}
-                </span>
-              ))}
-            </div>
-          </div>
         </div>
-        <div className="flex items-center space-x-2 ml-4">
+        <div className="flex-1 min-w-0">
+          <a
+            href={bookmark.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-base font-medium text-primary-600 hover:text-primary-500 block truncate"
+            onClick={() => bookmarkAPI.incrementClick(bookmark.id.toString())}
+          >
+            {bookmark.title}
+          </a>
+          {bookmark.description && (
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 line-clamp-1">
+              {bookmark.description}
+            </p>
+          )}
+        </div>
+        <div className="flex items-center space-x-1 flex-shrink-0">
           <button
             onClick={() => toggleFavorite(bookmark)}
             className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+            title="收藏"
           >
             {bookmark.is_favorite ? (
-              <SolidStarIcon className="h-5 w-5 text-yellow-500" />
+              <SolidStarIcon className="h-4 w-4 text-yellow-500" />
             ) : (
-              <StarIcon className="h-5 w-5 text-gray-400" />
+              <StarIcon className="h-4 w-4 text-gray-400" />
             )}
           </button>
           <button
             onClick={() => handleEdit(bookmark)}
             className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+            title="编辑"
           >
-            <PencilIcon className="h-5 w-5 text-gray-600 dark:text-gray-400" />
+            <PencilIcon className="h-4 w-4 text-gray-600 dark:text-gray-400" />
           </button>
           <button
             onClick={() => handleDelete(bookmark.id)}
             className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+            title="删除"
           >
-            <TrashIcon className="h-5 w-5 text-red-500" />
+            <TrashIcon className="h-4 w-4 text-red-500" />
           </button>
         </div>
       </div>
@@ -259,16 +233,7 @@ const Bookmarks: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* 右上角返回按钮 */}
-      <div className="absolute top-4 right-4 z-50">
-        <a
-          href="/"
-          className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-full shadow-lg transition-all duration-200 flex items-center space-x-2"
-        >
-          <HomeIcon className="h-4 w-4" />
-          <span>返回</span>
-        </a>
-      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="space-y-6">
           <div className="flex items-center justify-between">
@@ -344,7 +309,7 @@ const Bookmarks: React.FC = () => {
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {filteredBookmarks.map(bookmark => (
                 <BookmarkCard key={bookmark.id} bookmark={bookmark} />
               ))}

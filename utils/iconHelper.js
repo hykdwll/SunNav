@@ -8,6 +8,7 @@ const url = require('url');
  * @returns {Promise<string|null>} - 图标URL或null
  */
 async function getWebsiteIcon(websiteUrl) {
+  console.log('尝试获取网站图标:', websiteUrl);
   try {
     // 首先尝试获取网站的favicon.ico
     const urlObj = new URL(websiteUrl);
@@ -16,9 +17,13 @@ async function getWebsiteIcon(websiteUrl) {
     try {
       const response = await axios.head(faviconUrl, { timeout: 5000 });
       if (response.status === 200) {
+        console.log('成功获取favicon.ico:', faviconUrl);
         return faviconUrl;
+      } else {
+        console.log('favicon.ico状态码:', response.status);
       }
     } catch (error) {
+      console.error('获取favicon.ico失败:', error.message);
       // favicon.ico不存在，继续查找
     }
 
@@ -39,17 +44,21 @@ async function getWebsiteIcon(websiteUrl) {
     for (const selector of iconSelectors) {
       const element = $(selector);
       if (element.length > 0) {
-        let iconUrl = element.attr('href') || element.attr('content');
-        if (iconUrl) {
-          // 处理相对路径
-          if (!iconUrl.startsWith('http')) {
-            iconUrl = new URL(iconUrl, websiteUrl).href;
+          let iconUrl = element.attr('href') || element.attr('content');
+          if (iconUrl) {
+            // 处理相对路径
+            if (!iconUrl.startsWith('http')) {
+              iconUrl = new URL(iconUrl, websiteUrl).href;
+            }
+            console.log(`通过${selector}找到图标:`, iconUrl);
+            return iconUrl;
           }
-          return iconUrl;
+        } else {
+          console.log(`未找到${selector}元素`);
         }
-      }
     }
 
+    console.log('未找到任何图标');
     return null;
   } catch (error) {
     console.error('获取网站图标失败:', error.message);

@@ -1,6 +1,16 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || '/api';
+// 根据环境设置API基础URL
+const isProduction = process.env.NODE_ENV === 'production';
+// 在Vercel环境中，使用VERCEL_URL或VERCEL_BRANCH_URL
+const vercelUrl = process.env.VERCEL_URL || process.env.VERCEL_BRANCH_URL;
+const API_BASE_URL = process.env.REACT_APP_API_URL 
+  || (isProduction && vercelUrl ? `https://${vercelUrl}/api` : '/api');
+
+// 开发环境下打印API基础URL以便调试
+if (!isProduction) {
+  console.log('API_BASE_URL:', API_BASE_URL);
+}
 
 const api = axios.create({
   baseURL: API_BASE_URL,

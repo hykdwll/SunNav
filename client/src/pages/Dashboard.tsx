@@ -5,10 +5,7 @@ import { Bookmark, Category } from '../types';
 import {
   BookmarkIcon,
   FolderIcon,
-  TagIcon,
-  ClockIcon,
-  ArrowUpIcon,
-  ArrowDownIcon,
+  TagIcon
 } from '@heroicons/react/24/outline';
 
 const Dashboard: React.FC = () => {

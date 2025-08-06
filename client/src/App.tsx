@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Layout from './components/Layout';
@@ -12,8 +12,11 @@ import Categories from './pages/Categories';
 import Tags from './pages/Tags';
 import AdminUsers from './pages/AdminUsers';
 import ChangePassword from './pages/ChangePassword';
+import IconTest from './pages/IconTest';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
+// 在入口文件（如 App.js）中添加
+console.log('REACT_APP_API_URL:', process.env.REACT_APP_API_URL);
 
 function App() {
   return (
@@ -82,6 +85,14 @@ function App() {
                 <Layout>
                   <ChangePassword />
                 </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/icon-test"
+            element={
+              <ProtectedRoute>
+                <IconTest />
               </ProtectedRoute>
             }
           />

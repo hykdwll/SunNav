@@ -52,7 +52,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         }`}
       >
         <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-          <h1 className="text-xl font-bold text-gray-900 dark:text-white">SunNav</h1>
+          <Link to="/" className="text-xl font-bold text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+            SunNav
+          </Link>
           <button
             className="lg:hidden"
             onClick={() => setSidebarOpen(false)}

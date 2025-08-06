@@ -7,9 +7,9 @@
     "check-versions": "node -v | grep 20 && npm -v | grep 10",
     "dev": "nodemon server.js",
     "start": "node server.js",
-    "build": "cd client && npm run build",
-    "build:client": "cd client && npm install && npm run build",
-    "vercel-build": "cd client && npm install --legacy-peer-deps && npm run build"
+    "build": "npm run build:client",
+    "build:client": "cd client && npm install --legacy-peer-deps && npm run build",
+    "vercel-build": "npm run build:client"
   },
   "dependencies": {
     "eslint": "^9.0.0",
