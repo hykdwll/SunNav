@@ -7,7 +7,7 @@
     "check-versions": "node -v | grep 20 && npm -v | grep 10",
     "dev": "nodemon server.js",
     "start": "node server.js",
-    "build": "npm run check-versions && cd client && npm install --legacy-peer-deps && npm run build",
+    "build": "cd client && npm run build",
     "build:client": "cd client && npm install && npm run build",
     "vercel-build": "npm run build"
   },
