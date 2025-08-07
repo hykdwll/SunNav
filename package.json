@@ -1,7 +1,7 @@
 {
-  "name": "sunnav-bookmark",
+  "name": "sunnav",
   "version": "1.0.0",
-  "description": "A modern bookmark navigation system built with Node.js and React",
+  "description": "SunNav - 智能搜索导航，一个现代化的智能搜索导航网站",
   "main": "server.js",
   "scripts": {
     "check-versions": "node -v | grep 20 && npm -v | grep 10",

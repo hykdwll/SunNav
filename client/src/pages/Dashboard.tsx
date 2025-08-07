@@ -118,9 +118,8 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* 页面标题 */}
+      {/* 欢迎信息 */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">仪表盘</h1>
         <p className="text-gray-600 dark:text-gray-400">欢迎使用 SunNav 书签管理器</p>
       </div>
 

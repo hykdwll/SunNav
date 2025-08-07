@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "SunNav",
+  "name": "SunNav - 智能搜索导航",
   "icons": [
     {
       "src": "favicon.ico",

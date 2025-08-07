@@ -13,6 +13,8 @@ import {
   Bars3Icon,
   XMarkIcon,
   UsersIcon,
+  PencilIcon,
+  ArrowLeftOnRectangleIcon,
 } from '@heroicons/react/24/outline';
 
 interface LayoutProps {
@@ -87,16 +89,23 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 dark:border-gray-700">
             {user ? (
               <>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center">
-                    <UserIcon className="h-5 w-5 text-gray-600 dark:text-gray-300 mr-2" />
-                    <span className="text-sm text-gray-700 dark:text-gray-300">
-                      {user.username}
-                    </span>
+                    <div className="h-8 w-8 rounded-full bg-primary-100 dark:bg-primary-900 flex items-center justify-center mr-3">
+                      <UserIcon className="h-4 w-4 text-primary-600 dark:text-primary-400" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-900 dark:text-white">
+                        {user.username}
+                        <span className="ml-2 text-xs text-gray-500 dark:text-gray-400">
+                          {user.role === 'admin' ? '管理员' : '用户'}
+                        </span>
+                      </p>
+                    </div>
                   </div>
                   <button
                     onClick={toggleTheme}
-                    className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                    className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                   >
                     {isDark ? (
                       <SunIcon className="h-5 w-5 text-yellow-500" />
@@ -105,19 +114,23 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     )}
                   </button>
                 </div>
-                <Link
-                  to="/change-password"
-                  className="w-full mt-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
-                  onClick={() => setSidebarOpen(false)}
-                >
-                  修改密码
-                </Link>
-                <button
-                  onClick={logout}
-                  className="w-full mt-2 text-sm text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300"
-                >
-                  退出登录
-                </button>
+                <div className="space-y-2">
+                  <Link
+                    to="/change-password"
+                    className="w-full flex items-center justify-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-md transition-colors"
+                    onClick={() => setSidebarOpen(false)}
+                  >
+                    <PencilIcon className="h-4 w-4 mr-2" />
+                    修改密码
+                  </Link>
+                  <button
+                    onClick={logout}
+                    className="w-full flex items-center justify-center px-3 py-2 text-sm font-medium text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-md transition-colors"
+                  >
+                    <ArrowLeftOnRectangleIcon className="h-4 w-4 mr-2" />
+                    退出登录
+                  </button>
+                </div>
               </>
             ) : (
               <div className="space-y-2">

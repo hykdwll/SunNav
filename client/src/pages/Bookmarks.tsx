@@ -21,7 +21,6 @@ const Bookmarks: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedTag, setSelectedTag] = useState('');
-  const [showFavorites, setShowFavorites] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [editingBookmark, setEditingBookmark] = useState<Bookmark | null>(null);
   const [formData, setFormData] = useState({
@@ -173,9 +172,7 @@ const Bookmarks: React.FC = () => {
         typeof tag === 'string' ? tag === selectedTag : tag.name === selectedTag
       ));
 
-    const matchesFavorite = !showFavorites || bookmark.is_favorite;
-
-    return matchesSearch && matchesCategory && matchesTag && matchesFavorite;
+    return matchesSearch && matchesCategory && matchesTag;
   });
 
   const BookmarkCard: React.FC<{ bookmark: Bookmark }> = ({ bookmark }) => (
@@ -236,70 +233,61 @@ const Bookmarks: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">书签管理</h1>
-            <button
-              onClick={() => {
-                setEditingBookmark(null);
-                resetForm();
-                setShowModal(true);
-              }}
-              className="btn btn-primary flex items-center"
-            >
-              <PlusIcon className="h-4 w-4 mr-2" />
-              添加书签
-            </button>
-          </div>
+          <div className="flex items-center justify-end">
+        <button
+          onClick={() => {
+            setEditingBookmark(null);
+            resetForm();
+            setShowModal(true);
+          }}
+          className="btn btn-primary flex items-center"
+        >
+          <PlusIcon className="h-4 w-4 mr-2" />
+          添加书签
+        </button>
+      </div>
 
-          {/* 搜索和筛选 */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="relative">
-                <MagnifyingGlassIcon className="h-5 w-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
-                <input
-                  type="text"
-                  placeholder="搜索书签..."
-                  className="pl-10 input"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
+          {/* 搜索框 */}
+          <div className="mb-6">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div className="relative">
+                  <MagnifyingGlassIcon className="h-5 w-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
+                  <input
+                    type="text"
+                    placeholder="搜索书签..."
+                    className="pl-10 input"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </div>
+                
+                <select
+                  className="input"
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                >
+                  <option value="all">所有分类</option>
+                  {categories.map(category => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+
+                <select
+                  className="input"
+                  value={selectedTag}
+                  onChange={(e) => setSelectedTag(e.target.value)}
+                >
+                  <option value="">所有标签</option>
+                  {tags.map(tag => (
+                    <option key={tag.id} value={tag.name}>
+                      {tag.name}
+                    </option>
+                  ))}
+                </select>
               </div>
-              
-              <select
-                className="input"
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-              >
-                <option value="all">所有分类</option>
-                {categories.map(category => (
-                  <option key={category.id} value={category.id}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-
-              <select
-                className="input"
-                value={selectedTag}
-                onChange={(e) => setSelectedTag(e.target.value)}
-              >
-                <option value="">所有标签</option>
-                {tags.map(tag => (
-                  <option key={tag.id} value={tag.name}>
-                    {tag.name}
-                  </option>
-                ))}
-              </select>
-
-              <label className="flex items-center">
-                <input
-                  type="checkbox"
-                  className="mr-2"
-                  checked={showFavorites}
-                  onChange={(e) => setShowFavorites(e.target.checked)}
-                />
-                <span className="text-sm text-gray-700 dark:text-gray-300">只显示收藏</span>
-              </label>
             </div>
           </div>
 
@@ -309,10 +297,21 @@ const Bookmarks: React.FC = () => {
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {filteredBookmarks.map(bookmark => (
-                <BookmarkCard key={bookmark.id} bookmark={bookmark} />
-              ))}
+            <div>
+              {filteredBookmarks.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                  {filteredBookmarks.map(bookmark => (
+                    <BookmarkCard key={bookmark.id} bookmark={bookmark} />
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                  <SolidStarIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                  <p className="text-gray-500 dark:text-gray-400">
+                    {searchQuery ? '没有找到匹配的书签' : '暂无书签'}
+                  </p>
+                </div>
+              )}
             </div>
           )}
 

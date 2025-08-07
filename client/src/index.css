@@ -10,6 +10,10 @@
   body {
     @apply bg-gray-50 text-gray-900;
   }
+  
+  html.dark body {
+    @apply bg-gray-900 text-gray-100;
+  }
 }
 
 @layer components {
@@ -50,5 +54,50 @@
   
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+
+  .animate-in {
+    animation-duration: 200ms;
+    animation-fill-mode: both;
+  }
+
+  .fade-in {
+    animation-name: fade-in;
+  }
+
+  .slide-in-from-top-2 {
+    animation-name: slide-in-from-top-2;
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-in-from-top-2 {
+    from {
+      transform: translateY(-0.5rem);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  .hover\:scale-110:hover {
+    transform: scale(1.1);
+  }
+
+  .group-hover\:scale-110:hover {
+    transform: scale(1.1);
+  }
+
+  .transition-transform {
+    transition-property: transform;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 200ms;
   }
 }

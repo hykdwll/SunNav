@@ -8,7 +8,7 @@ require('dotenv').config();
 const { testConnection, initializeDatabase } = require('./config/database');
 
 const app = express();
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 3000;
 
 // 中间件
 app.use(helmet());
