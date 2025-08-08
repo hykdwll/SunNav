@@ -213,8 +213,17 @@ router.post('/', authenticateToken, async (req, res) => {
       return res.status(400).json({ error: 'URL格式无效' });
     }
 
-    // 完全移除自动获取图标功能，只使用用户提供的图标URL
-    let finalIconUrl = icon_url || null;
+    // 如果没有提供图标，自动获取
+    let finalIconUrl = icon_url;
+    if (!finalIconUrl) {
+      try {
+        const iconResult = await getBookmarkIcon(url, title);
+        finalIconUrl = iconResult.icon_url;
+      } catch (error) {
+        console.error('获取图标失败:', error.message);
+        finalIconUrl = null;
+      }
+    }
 
     // 插入书签
     const [result] = await connection.execute(
@@ -293,20 +302,16 @@ router.put('/:id', authenticateToken, async (req, res) => {
       return res.status(404).json({ error: '书签不存在' });
     }
 
-    // 使用用户提供的图标URL，如果没有提供则保持原图标不变
+    // 如果没有提供图标，自动获取
     let finalIconUrl = icon_url;
-    if (finalIconUrl === undefined) {
-      // 查询数据库获取当前图标
-      const [currentBookmark] = await connection.execute(
-        'SELECT icon_url FROM bookmarks WHERE id = ?',
-        [req.params.id]
-      );
-      finalIconUrl = currentBookmark[0]?.icon_url || null;
-    }
-    
-    // 限制图标URL长度，避免超出数据库字段限制
-    if (finalIconUrl && finalIconUrl.length > 500) {
-      finalIconUrl = finalIconUrl.substring(0, 500);
+    if (!finalIconUrl) {
+      try {
+        const iconResult = await getBookmarkIcon(url, title);
+        finalIconUrl = iconResult.icon_url;
+      } catch (error) {
+        console.error('获取图标失败:', error.message);
+        finalIconUrl = null;
+      }
     }
 
     // 更新书签

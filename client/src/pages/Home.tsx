@@ -150,7 +150,7 @@ const Home: React.FC = () => {
 
     setLoadingBookmarks(true);
     try {
-      const response = await fetch('/api/bookmarks', {
+      const response = await fetch('/api/bookmarks?favorite=true&limit=20', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -158,8 +158,7 @@ const Home: React.FC = () => {
       
       if (response.ok) {
         const data = await response.json();
-        console.log('获取到的书签数据:', data);
-        // 获取所有书签，然后筛选收藏的书签
+        console.log('获取到的收藏书签数据:', data);
         setBookmarks(data);
         setShowBookmarks(true);
       } else {
@@ -167,7 +166,7 @@ const Home: React.FC = () => {
         setBookmarks([]);
       }
     } catch (error) {
-      console.error('获取书签失败:', error);
+      console.error('获取收藏书签失败:', error);
       setShowBookmarks(false);
       setBookmarks([]);
     } finally {
@@ -526,49 +525,46 @@ const Home: React.FC = () => {
           </div>
         </form>
 
-        {/* 书签展示区域 - 只显示收藏的书签 */}
-        {(() => {
-          const favoriteBookmarks = bookmarks.filter(bookmark => bookmark.is_favorite);
-          return showBookmarks && favoriteBookmarks.length > 0 && (
-            <div className="mt-12">
-              <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4 text-left">
-                我的收藏
-              </h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {favoriteBookmarks.map((bookmark) => (
-                  <div
-                    key={bookmark.id}
-                    className="relative group"
-                    onContextMenu={(e) => handleContextMenu(e, bookmark)}
+        {/* 书签展示区域 - 收藏的书签 */}
+        {showBookmarks && bookmarks.length > 0 && (
+          <div className="mt-12">
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4 text-left">
+              我的收藏
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {bookmarks.map((bookmark) => (
+                <div
+                  key={bookmark.id}
+                  className="relative group"
+                  onContextMenu={(e) => handleContextMenu(e, bookmark)}
+                >
+                  <a
+                    href={bookmark.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex flex-col items-center justify-center bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-200 w-full"
+                    onClick={(e) => {
+                      fetch(`/api/bookmarks/${bookmark.id}/click`, {
+                        method: 'PATCH',
+                        headers: {
+                          'Authorization': `Bearer ${localStorage.getItem('token')}`
+                        }
+                      }).catch(console.error);
+                    }}
                   >
-                    <a
-                      href={bookmark.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex flex-col items-center justify-center bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-200 w-full"
-                      onClick={(e) => {
-                        fetch(`/api/bookmarks/${bookmark.id}/click`, {
-                          method: 'PATCH',
-                          headers: {
-                            'Authorization': `Bearer ${localStorage.getItem('token')}`
-                          }
-                        }).catch(console.error);
-                      }}
-                    >
-                      <BookmarkIcon iconUrl={bookmark.icon_url} title={bookmark.title} size="md" />
-                      <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 mt-2 truncate max-w-full text-left group-hover:text-blue-600 dark:group-hover:text-blue-400">
-                        {bookmark.title}
-                      </h3>
-                    </a>
-                    <div className="absolute top-1 right-1 w-4 h-4 bg-yellow-500 rounded-full flex items-center justify-center text-white text-xs">
-                      ★
-                    </div>
+                    <BookmarkIcon iconUrl={bookmark.icon_url} title={bookmark.title} size="md" />
+                    <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 mt-2 truncate max-w-full text-left group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                      {bookmark.title}
+                    </h3>
+                  </a>
+                  <div className="absolute top-1 right-1 w-4 h-4 bg-yellow-500 rounded-full flex items-center justify-center text-white text-xs">
+                    ★
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
-          );
-        })()}
+          </div>
+        )}
 
         {loadingBookmarks && (
           <div className="mt-12 text-center">

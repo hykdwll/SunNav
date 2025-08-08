@@ -63,6 +63,7 @@ const Bookmarks: React.FC = () => {
         ...formData,
         category_id: formData.category_id ? parseInt(formData.category_id) : undefined,
         tags: formData.tags,
+        icon_url: formData.icon_url || undefined,
       };
 
       if (editingBookmark) {
@@ -412,50 +413,6 @@ const Bookmarks: React.FC = () => {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                      网站图标地址
-                    </label>
-                    <div className="flex space-x-2">
-                      <input
-                        type="url"
-                        className="input flex-1"
-                        placeholder="https://example.com/favicon.ico"
-                        value={formData.icon_url || ''}
-                        onChange={(e) => setFormData({ ...formData, icon_url: e.target.value })}
-                      />
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (formData.url) {
-                            fetchMetadata();
-                          }
-                        }}
-                        disabled={!formData.url || loadingMetadata}
-                        className="btn btn-secondary px-3 py-2 text-sm whitespace-nowrap disabled:opacity-50"
-                        title="从网站自动获取图标"
-                      >
-                        {loadingMetadata ? (
-                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                        ) : (
-                          '🏷️'
-                        )}
-                      </button>
-                    </div>
-                    {formData.icon_url && (
-                      <div className="mt-2">
-                        <img 
-                          src={formData.icon_url} 
-                          alt="图标预览"
-                          className="h-8 w-8 rounded border border-gray-300 dark:border-gray-600"
-                          onError={(e) => {
-                            e.currentTarget.src = `data:image/svg+xml;base64,${btoa(`<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" fill="#9CA3AF" rx="6"/><text x="16" y="20" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="white">?</text></svg>`)}`;
-                          }}
-                        />
-                      </div>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                       标签（用逗号分隔）
                     </label>
                     <input
@@ -468,6 +425,31 @@ const Bookmarks: React.FC = () => {
                         tags: e.target.value.split(',').map(tag => tag.trim()).filter(tag => tag) 
                       })}
                     />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      网站图标URL
+                    </label>
+                    <div className="flex space-x-2">
+                      <input
+                        type="url"
+                        className="input flex-1"
+                        placeholder="https://example.com/favicon.ico"
+                        value={formData.icon_url}
+                        onChange={(e) => setFormData({ ...formData, icon_url: e.target.value })}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setFormData({ ...formData, icon_url: '' })}
+                        className="btn btn-secondary px-3 py-2 text-sm whitespace-nowrap"
+                      >
+                        清除
+                      </button>
+                    </div>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      留空将自动获取网站图标
+                    </p>
                   </div>
 
                   <div className="flex justify-end space-x-2">
