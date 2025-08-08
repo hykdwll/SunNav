@@ -150,7 +150,7 @@ const Home: React.FC = () => {
 
     setLoadingBookmarks(true);
     try {
-      const response = await fetch('/api/bookmarks?limit=12', {
+      const response = await fetch('/api/bookmarks', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -159,7 +159,8 @@ const Home: React.FC = () => {
       if (response.ok) {
         const data = await response.json();
         console.log('获取到的书签数据:', data);
-        setBookmarks(data.slice(0, 12));
+        // 获取所有书签，然后筛选收藏的书签
+        setBookmarks(data);
         setShowBookmarks(true);
       } else {
         setShowBookmarks(false);
