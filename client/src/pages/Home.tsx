@@ -578,9 +578,9 @@ const Home: React.FC = () => {
       {/* 底部信息 */}
       <div className="absolute bottom-8 text-center">
         <p className="text-sm text-gray-500 dark:text-gray-400">
-          © 2025 SunNav - | 二阳, 💻
-          <a href="https://www.eryang.top" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors ml-1">
-            作者博客
+          © 2025 SunNav - | 二阳  <a href="https://github.com/hykdwll/SunNav" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors ml-1">GitHub</a>
+          <a href="https://www.eryang.top/2025/08/09/sunnav/" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors ml-1">
+            阳的树屋
           </a>
         </p>
       </div>
