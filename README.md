@@ -102,3 +102,17 @@ npm start
 ```
 
 访问 http://localhost:3000 开始使用
+
+## 📄 许可证
+
+本项目采用 [MIT 许可证](LICENSE) 开源，您可以自由使用、修改和分发。
+
+## 🤝 贡献
+
+欢迎提交 Issue 和 Pull Request 来帮助改进这个项目！
+
+## 📞 联系
+
+如有问题或建议，请通过以下方式联系：
+- 作者博客：[二阳博客](https://www.eryang.top)
+- 提交 Issue：GitHub Issues
